@@ -20,7 +20,7 @@ var MongoClient = mongodb.MongoClient;
 // Connection url where your mongodb server is running.
 // var mongoUrl = 'mongodb://localhost:27017/api-project';
 var mongoUrl ='mongodb://heroku_2h5q2kgp:75ftd74bc6npsaja2pbb0a9d4q@ds027145.mlab.com:27145/heroku_2h5q2kgp'
-mongodb.MongoClient.connect(process.env.MONGODB_URL || mongoUrl, function(err, database){
+mongodb.MongoClient.connect(mongoUrl, function(err, database){
     if (err) {
         console.log(err);
         process.exit(1);
