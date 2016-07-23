@@ -39,7 +39,7 @@ app.post('/planner/search', function(req, res) {
   var format = '/events.json?api_version=2.0&app_id=';
   var end = 'BAND_PLANNER_APP';
   var fullQuery = endpoint + searchInput + format + end;
-  console.log('fullQuery:', fullQuery); // prints to terminal
+  console.log('fullQuery:', fullQuery);
 
   request({
     url: fullQuery,
@@ -81,7 +81,7 @@ app.post('/artist/name', function(req, res) {
     url: fullQuery,
     method: 'GET',
     callback: function(error, response, body) {
-      console.log(body);
+      // console.log(body);
       res.send(body);
     }
   })
@@ -89,8 +89,12 @@ app.post('/artist/name', function(req, res) {
 
 // post to db
 app.post('/events/new', function(req, res) {
-  var newEvent = req.body
-  db.collection(EVENTS_COLLECTION).insertOne(newEvent, function(err, result) {
+  var newEvent = req.body;
+  var id = req.body.eventId;
+  console.log('ID:', id);
+
+  // update allows us to add to db only if the obj doesn't already exist in db
+  db.collection(EVENTS_COLLECTION).update({eventId: id}, {$setOnInsert: newEvent}, {upsert: true}, function(err, result) {
     if (err) {
       console.log("Error: " + err);
       res.json('Error');
@@ -98,7 +102,7 @@ app.post('/events/new', function(req, res) {
       console.log('Event added');
       res.json(result);
     }
-    });
+  });
 })
 
 // listen on port 3000 for dev; use PORT var for deply
