@@ -87,11 +87,11 @@ app.post('/artist/name', function(req, res) {
   })
 })
 
-// post to db
+// post new event to db
 app.post('/events/new', function(req, res) {
   var newEvent = req.body;
   var id = req.body.eventId;
-  console.log('ID:', id);
+  // console.log('ID:', id);
 
   // update allows us to add to db only if the obj doesn't already exist in db
   db.collection(EVENTS_COLLECTION).update({eventId: id}, {$setOnInsert: newEvent}, {upsert: true}, function(err, result) {
@@ -103,6 +103,19 @@ app.post('/events/new', function(req, res) {
       res.json(result);
     }
   });
+})
+
+// view all events stored in db
+app.get('/events', function(req, res) {
+  db.collection(EVENTS_COLLECTION).find({}).toArray(function(error, result) {
+    if (error) {
+      console.log('Failed to find events', error);
+      res.json('Error finding events');
+    } else {
+      console.log('Event results found');
+      res.json(result);
+    }
+  })
 })
 
 // listen on port 3000 for dev; use PORT var for deply
