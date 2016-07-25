@@ -18,8 +18,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 var MongoClient = mongodb.MongoClient;
 
 // Connection url where your mongodb server is running.
-var mongoUrl = 'mongodb://localhost:27017/api-project';
-// var mongoUrl ='mongodb://heroku_2h5q2kgp:75ftd74bc6npsaja2pbb0a9d4q@ds027145.mlab.com:27145/heroku_2h5q2kgp'
+// var mongoUrl = 'mongodb://localhost:27017/api-project';
+var mongoUrl ='mongodb://heroku_2h5q2kgp:75ftd74bc6npsaja2pbb0a9d4q@ds027145.mlab.com:27145/heroku_2h5q2kgp'
 mongodb.MongoClient.connect(mongoUrl, function(err, database){
     if (err) {
         console.log(err);
@@ -134,11 +134,11 @@ app.delete('/events/:eventId', function(req, res) {
 });
 
 // listen on port 3000 for dev; use PORT var for deply
-app.listen(3000, function() {
-    console.log('listen to events on a "port".')
-});
-
-// PORT = process.env.PORT || 80;
-// app.listen(PORT, function() {
+// app.listen(3000, function() {
 //     console.log('listen to events on a "port".')
 // });
+
+PORT = process.env.PORT || 80;
+app.listen(PORT, function() {
+    console.log('listen to events on a "port".')
+});
