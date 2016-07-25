@@ -118,6 +118,21 @@ app.get('/events', function(req, res) {
   })
 })
 
+// delete an event by eventId
+app.delete('/events/:eventId', function(req, res) {
+  console.log('REQ.PARAMS:', req.params)
+  db.collection(EVENTS_COLLECTION).remove(req.params, function(error, numRemoved) {
+    console.log('numRemoved:', numRemoved);
+    if (error) {
+      console.log('Error', error);
+      res.json('Error');
+    } else {
+      console.log('Success');
+      res.json('Removal successful');
+    }
+  });
+});
+
 // listen on port 3000 for dev; use PORT var for deply
 app.listen(3000, function() {
     console.log('listen to events on a "port".')
